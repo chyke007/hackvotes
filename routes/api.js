@@ -10,8 +10,8 @@ router.get('/check/:id',ApiController.checkuuid);
 router.post('/report',ApiController.report);
 
 //Result route
-router.post('/result/state/:id',ApiController.resultByState);
-router.post('/result/lga/:id',ApiController.resultByLga);
-router.post('/result/pu/:id',ApiController.resultByPu);
+router.get('/result/state/:id',ApiController.resultByState);
+router.get('/result/lga/:id',ApiController.resultByLga);
+router.get('/result/pu/:id',ApiController.resultByPu);
 
 module.exports = router;

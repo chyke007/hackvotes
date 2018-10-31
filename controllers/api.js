@@ -1,6 +1,6 @@
 var ApiModel = require('../models/index.js');
 var path = require('path');
-var _ = require('loadash');
+var _ = require('lodash');
 
 function Api(){
 self = this;
@@ -8,6 +8,7 @@ self = this;
 
 this.checkuuid = function(req, res){
 //ApiModel.setup();
+//return false;
 var events = ApiModel.checkUuid('voted',req.params.id.toLowerCase(),function(response){
        if(response){
        		res.send({status:true});
@@ -77,48 +78,73 @@ if(	!req.body.name || !req.body.sex || !req.body.poll_unit|| !req.body.lga ||!re
 
 };
 
-this.verifyReport = function(objArray){
-var objArray = JSON.parse(objArray);
+this.verifyReport = function(objArray,fn){
+var objArray = objArray;
+console.log(objArray);
 var arrofres = [];
 //for pdp
-var tagArray = _.pluck(objArray,'pdp'); //create an array of tag values from the object array
-var mostCommonTag = _.chain(tagArray).countBy().pairs().max(_.last).head().value(); //find the most commonly occurring tag value
+var tagArray = _.map(objArray,function(party){
+	return party.pdp;
+}); //create an array of tag values from the object array
+console.log(tagArray);
+console.log("chains",_.head(_(tagArray).countBy().entries().maxBy('[1]')));
+var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
 arrofres.push({pdp:mostCommonTag});
+console.log(arrofres);
 //for apc
-var tagArray = _.pluck(objArray,'apc'); //create an array of tag values from the object array
-var mostCommonTag = _.chain(tagArray).countBy().pairs().max(_.last).head().value(); //find the most commonly occurring tag value
-arrofres.push(({apc:mostCommonTag});
+var tagArray = _.map(objArray,function(party){
+	return party.apc;
+}); //create an array of tag values from the object array
+var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
+arrofres.push({apc:mostCommonTag});
 //for apga
-var tagArray = _.pluck(objArray,'apga'); //create an array of tag values from the object array
-var mostCommonTag = _.chain(tagArray).countBy().pairs().max(_.last).head().value(); //find the most commonly occurring tag value
-arrofres.push(({apga:mostCommonTag});
+var tagArray = _.map(objArray,function(party){
+	return party.apga;
+}); //create an array of tag values from the object array
+var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
+arrofres.push({apga:mostCommonTag});
 //for lp
-var tagArray = _.pluck(objArray,'lp'); //create an array of tag values from the object array
-var mostCommonTag = _.chain(tagArray).countBy().pairs().max(_.last).head().value(); //find the most commonly occurring tag value
-arrofres.push(({lp:mostCommonTag});
+var tagArray = _.map(objArray,function(party){
+	return party.lp;
+}); //create an array of tag values from the object array
+var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
+arrofres.push({lp:mostCommonTag});
 //for adc
-var tagArray = _.pluck(objArray,'adc'); //create an array of tag values from the object array
-var mostCommonTag = _.chain(tagArray).countBy().pairs().max(_.last).head().value(); //find the most commonly occurring tag value
-arrofres.push(({adc:mostCommonTag});
-	return arrofres;
+var tagArray = _.map(objArray,function(party){
+	return party.adc;
+}); //create an array of tag values from the object array
+var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
+arrofres.push({adc:mostCommonTag});
+	fn(arrofres);
 };
 
 
 this.resultByState =  function (req, res) {
-if(	!req.body.state){
+if(!req.params.id){
 
 	res.send({status:100,result:'All fields are required'});
 
 	}else{
 
-	var state = req.body.state.toLowerCase();
+	var state = req.params.id.toLowerCase();
 	
 	ApiModel.getResult('voted','state',state,function(response){
 			if(response){
 
-				var result = verifyReport(response);
-				res.send(status_code:200,result:result);
+				console.log("Result first",response);
+				self.verifyReport(response,function(response2){
+					if(response2){
+					var result = response2;
+				console.log("Results:",result);
+				res.send({status_code:200,result:result});
 
+					}else{
+				res.send({status_code:400,result:'Error'});
+
+					}
+				
+				});
+				
 
 			}else{
 				console.log("An error occured when storing report");
@@ -131,19 +157,29 @@ if(	!req.body.state){
 
 this.resultByLga =  function (req, res) {
 
-	if(	!req.body.lga){
+	if(!req.params.id){
 
 	res.send({status:100,result:'All fields are required'});
 
 	}else{
 
-	var lga = req.body.lga.toLowerCase();
+	var lga = req.params.id.toLowerCase();
 	
 	ApiModel.getResult('voted','lga',lga,function(response){
 			if(response){
+console.log("Result first",response);
+				self.verifyReport(response,function(response2){
+					if(response2){
+					var result = response2;
+				console.log("Results:",result);
+				res.send({status_code:200,result:result});
 
-				var result = verifyReport(response);
-				res.send(status_code:200,result:result);
+					}else{
+				res.send({status_code:400,result:'Error'});
+
+					}
+				
+				});
 
 
 			}else{
@@ -159,21 +195,29 @@ this.resultByLga =  function (req, res) {
 
 this.resultByPu =  function (req, res) {
 
-if(	!req.body.poll_unit){
+if(	!req.params.id){
 
 	res.send({status:100,result:'All fields are required'});
 
 	}else{
 
-	var poll_unit = req.body.poll_unit.toLowerCase();
+	var poll_unit = req.params.id.toLowerCase();
 	
 	ApiModel.getResult('voted','poll_unit',poll_unit,function(response){
 			if(response){
+					console.log("Result first",response);
+				self.verifyReport(response,function(response2){
+					if(response2){
+					var result = response2;
+				console.log("Results:",result);
+				res.send({status_code:200,result:result});
 
-				var result = verifyReport(response);
-				res.send(status_code:200,result:result);
+					}else{
+				res.send({status_code:400,result:'Error'});
 
-
+					}
+				
+				});
 			}else{
 				console.log("No result found");
 				res.send({status_code:300,result:"No results found"});	

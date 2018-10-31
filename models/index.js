@@ -48,18 +48,20 @@ if(JSON.parse(doc[module])[0] == null){
     const storearray = [];
     var result = '';
     var length = JSON.parse(doc[module]).length;
-  	console.log(JSON.parse(doc[module]));
+  	console.log('Objetcs: ',JSON.parse(doc[module]));
 for (var i=0; i< length;i++){
 
   if(JSON.parse(doc[module])[i][key] == id){
   	 
-    var just =  JSON.parse(doc[module]) ;
-    console.log(storearray.push(just[i]));
+    var just =  JSON.parse(doc[module]);
+    console.log("I am just ",just[i]);
+    var rant = just[i].result;
+    storearray.push(rant);
      
   }
-    else if((i+1) == length){
-   result = JSON.stringify(storearray);  
-   
+   if((i+1) == length){
+   result = storearray;  
+   console.log("I am result",result);
    //fn(200);
    if (storearray.length ==0){
    		fn(false);

@@ -1,7 +1,5 @@
-2018/10/31-18:18:35.299 1c6c Recovering log #452
-2018/10/31-18:18:35.299 1c6c Level-0 table #454: started
-2018/10/31-18:18:35.474 1c6c Level-0 table #454: 237 bytes OK
-2018/10/31-18:18:35.474 1c6c Recovering log #455
-2018/10/31-18:18:35.646 1c6c Delete type=0 #452
-2018/10/31-18:18:35.646 1c6c Delete type=0 #455
-2018/10/31-18:18:35.646 1c6c Delete type=3 #450
+2018/10/31-21:49:42.215 1d9c Recovering log #6
+2018/10/31-21:49:42.215 1d9c Level-0 table #8: started
+2018/10/31-21:49:42.277 1d9c Level-0 table #8: 525 bytes OK
+2018/10/31-21:49:42.371 1d9c Delete type=0 #6
+2018/10/31-21:49:42.371 1d9c Delete type=3 #4
