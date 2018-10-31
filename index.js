@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const path = require('path');
 const cors = require('cors');
 const hbs = require('express-handlebars');
@@ -21,7 +20,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cookieParser());
-app.use(session({secret:"It is secret"}));
 
 //For including statis files i.e. scripts and styles
 app.use('/api',routes);
