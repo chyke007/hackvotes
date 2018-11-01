@@ -1,4 +1,5 @@
 var PouchDB = require('pouchdb-node');
+var _ = require('lodash');
 
 function User(){
 self = this;
@@ -35,7 +36,7 @@ if (err){
 
 
 };
-this.getResult = function (module,key,id,fn){
+this.getResult = function (module,id,fn){
 
 db.get(module).then(function (doc) {
 
@@ -45,13 +46,41 @@ if(JSON.parse(doc[module])[0] == null){
     
                 fn(false);
 }else{
-    const storearray = [];
+    var storearray = [];
+    var ranti = [];
     var result = '';
     var length = JSON.parse(doc[module]).length;
-  	console.log('Objetcs: ',JSON.parse(doc[module]));
+  	console.log('Objects: ',JSON.parse(doc[module]));
+	
+
 for (var i=0; i< length;i++){
 
-  if(JSON.parse(doc[module])[i][key] == id){
+	if(id == 'all'){
+console.log(length);
+	var just =  JSON.parse(doc[module]);
+	var poll_unit = just[i].poll_unit;
+	
+	var rant = just[i].result;
+	
+	
+	if(_.find(storearray,{name:poll_unit})){
+		
+		var found = _.find(storearray,{name:poll_unit}).result.push(rant);
+		console.log("fdd",found);
+		}else{
+		var obj = {};
+	obj.name = poll_unit;
+	obj.result = [just[i].result];
+		
+		 var jj = storearray.push(obj);
+    
+	console.log("I am jj",storearray);
+	
+	}
+   
+	}else{
+  
+  if(JSON.parse(doc[module])[i].poll_unit == id){
   	 
     var just =  JSON.parse(doc[module]);
     console.log("I am just ",just[i]);
@@ -59,6 +88,7 @@ for (var i=0; i< length;i++){
     storearray.push(rant);
      
   }
+}
    if((i+1) == length){
    result = storearray;  
    console.log("I am result",result);
@@ -150,6 +180,56 @@ fn(false)
 
 
 };
+
+this.getPolls = function (module,fn){
+
+
+db.get(module).then(function (doc) {
+
+console.log(doc[module]);
+
+if(JSON.parse(doc[module])[0] == null){
+    
+                fn(false);
+}else{
+    
+    var length = JSON.parse(doc[module]).length;
+  	console.log(JSON.parse(doc[module]));
+  	var result = [];
+for (var i=0; i< length;i++){
+
+  	result.push(JSON.parse(doc[module])[i].poll_unit);
+  	console.log("I found it!!!");
+    
+   
+  
+    
+}
+ fn(_.uniq(result));
+}
+
+if(db.put(doc)){
+console.log (doc);
+	
+}else{
+		
+}
+
+},function (err) {
+
+console.log('Error: ',err);
+
+if(err.name=='not_found'){
+
+console.log(err);
+
+fn(false)
+
+                    }
+}); 
+
+
+}
 
 this.addReport = function (module,itemname,newitem,fn){
 

@@ -9,9 +9,13 @@ router.get('/check/:id',ApiController.checkuuid);
 //Reporting route
 router.post('/report',ApiController.report);
 
+//Get all pollling units
+router.get('/polls',ApiController.getPolls);
+
+
 //Result route
-router.get('/result/state/:id',ApiController.resultByState);
-router.get('/result/lga/:id',ApiController.resultByLga);
-router.get('/result/pu/:id',ApiController.resultByPu);
+router.get('/result/:id',ApiController.resultAll);
+router.get('/result/state/:id',ApiController.resultState);
+router.get('/result/pu/:id',ApiController.resultAll);
 
 module.exports = router;

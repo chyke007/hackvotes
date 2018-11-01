@@ -1,13 +1,14 @@
-2018/10/31-23:08:50.904 2354 Recovering log #12
-2018/10/31-23:08:50.904 2354 Level-0 table #14: started
-2018/10/31-23:08:51.061 2354 Level-0 table #14: 1278 bytes OK
-2018/10/31-23:08:51.467 2354 Delete type=0 #12
-2018/10/31-23:08:51.467 2354 Delete type=3 #10
-2018/10/31-23:08:51.467 1e00 Compacting 4@0 + 0@1 files
-2018/10/31-23:08:51.607 1e00 Generated table #16@0: 16 keys, 2300 bytes
-2018/10/31-23:08:51.607 1e00 Compacted 4@0 + 0@1 files => 2300 bytes
-2018/10/31-23:08:51.732 1e00 compacted to: files[ 0 1 0 0 0 0 0 ]
-2018/10/31-23:08:51.732 1e00 Delete type=2 #5
-2018/10/31-23:08:51.732 1e00 Delete type=2 #8
-2018/10/31-23:08:51.732 1e00 Delete type=2 #11
-2018/10/31-23:08:51.732 1e00 Delete type=2 #14
+2018/11/01-15:16:46.239 12dc Recovering log #532
+2018/11/01-15:16:46.239 12dc Level-0 table #534: started
+2018/11/01-15:16:46.286 12dc Level-0 table #534: 237 bytes OK
+2018/11/01-15:16:46.332 12dc Delete type=0 #532
+2018/11/01-15:16:46.332 12dc Delete type=3 #530
+2018/11/01-15:16:46.332 1dac Compacting 4@0 + 1@1 files
+2018/11/01-15:16:46.442 1dac Generated table #536@0: 62 keys, 12584 bytes
+2018/11/01-15:16:46.442 1dac Compacted 4@0 + 1@1 files => 12584 bytes
+2018/11/01-15:16:46.489 1dac compacted to: files[ 0 1 0 0 0 0 0 ]
+2018/11/01-15:16:46.489 1dac Delete type=2 #523
+2018/11/01-15:16:46.489 1dac Delete type=2 #525
+2018/11/01-15:16:46.489 1dac Delete type=2 #528
+2018/11/01-15:16:46.489 1dac Delete type=2 #531
+2018/11/01-15:16:46.489 1dac Delete type=2 #534

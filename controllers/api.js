@@ -115,23 +115,78 @@ var tagArray = _.map(objArray,function(party){
 }); //create an array of tag values from the object array
 var mostCommonTag = _.head(_(tagArray).countBy().entries().maxBy('[1]')); //find the most commonly occurring tag value
 arrofres.push({adc:mostCommonTag});
-	fn(arrofres);
+
+console.log("ss:",arrofres);
+var jj ={
+	pdp:Number(arrofres[0].pdp),
+	apc:Number(arrofres[1].apc),
+	apga:Number(arrofres[2].apga),
+	adc:Number(arrofres[3].lp),
+	lp:Number(arrofres[4].adc)
+}
+console.log("jj",jj);
+fn(jj);
 };
 
+this.getPolls =  function (req, res){
+ApiModel.getPolls('voted',function(response){
+			if(response){
 
-this.resultByState =  function (req, res) {
+			res.send({status:200,result:response});
+
+			}else{
+				res.send({status:400,result:'Unknown error'});
+
+			}
+	});
+
+};
+
+this.resultAll =  function (req, res) {
+	var value = '';
 if(!req.params.id){
 
 	res.send({status:100,result:'All fields are required'});
 
 	}else{
 
-	var state = req.params.id.toLowerCase();
+	var stateorall = req.params.id.toLowerCase();
 	
-	ApiModel.getResult('voted','state',state,function(response){
+	ApiModel.getResult('voted',stateorall,function(response){
+	
 			if(response){
+				if(stateorall == 'all'){
+				var es_po_arr_1 = [];
+				for(var j=0;j<response.length;j++){
+				var es_po = response[j].result;
+				console.log("dd",es_po);
+				self.verifyReport(es_po,function(response2){
+					if(response2){
+					es_po_arr_1.push(response2);
+				//console.log("Results:",result);
+				//res.send({status_code:200,result:result});
 
-				console.log("Result first",response);
+					}else{
+				res.send({status_code:400,result:'Error'});
+
+					}
+				
+				});
+			}
+					var output =_(es_po_arr_1).groupBy().map((objs, key) => ({
+        pdp: _.sumBy(objs, 'pdp'),
+        apc: _.sumBy(objs, 'apc'),
+        apga: _.sumBy(objs, 'apga'),
+        lp: _.sumBy(objs, 'lp'),
+        adc: _.sumBy(objs, 'adc') })).value();
+
+			console.log("Results:",output);
+			res.send({status_code:200,result:output});
+
+				
+				}else{
+
+						console.log("Result first",response);
 				self.verifyReport(response,function(response2){
 					if(response2){
 					var result = response2;
@@ -144,6 +199,8 @@ if(!req.params.id){
 					}
 				
 				});
+					
+				}
 				
 
 			}else{
@@ -155,7 +212,7 @@ if(!req.params.id){
 
 };
 
-this.resultByLga =  function (req, res) {
+this.resultState =  function (req, res) {
 
 	if(!req.params.id){
 
@@ -185,42 +242,6 @@ console.log("Result first",response);
 			}else{
 				console.log("An error occured when storing report");
 				res.send({status_code:400,result:"Unknown Error"});	
-			}
-		
-	});
-}
-
-
-};
-
-this.resultByPu =  function (req, res) {
-
-if(	!req.params.id){
-
-	res.send({status:100,result:'All fields are required'});
-
-	}else{
-
-	var poll_unit = req.params.id.toLowerCase();
-	
-	ApiModel.getResult('voted','poll_unit',poll_unit,function(response){
-			if(response){
-					console.log("Result first",response);
-				self.verifyReport(response,function(response2){
-					if(response2){
-					var result = response2;
-				console.log("Results:",result);
-				res.send({status_code:200,result:result});
-
-					}else{
-				res.send({status_code:400,result:'Error'});
-
-					}
-				
-				});
-			}else{
-				console.log("No result found");
-				res.send({status_code:300,result:"No results found"});	
 			}
 		
 	});
