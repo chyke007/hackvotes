@@ -10,7 +10,7 @@ It uses a medium algorithm to check the authenticity of response by evaluating s
 # Technology
 
 The Project was developed using:
-- [Node.js] - (https://nodejs.org/en/) - for the main application
-- [PouchDb] - (http://pouchdb.com/) - as the database
-- [ExpressJs] - ( https:expressjs.com) - for the routing 
+- [Node.js](https://nodejs.org/en/) - for the main application
+- [PouchDb](http://pouchdb.com/) - as the database
+- [ExpressJs](https://expressjs.com/) - for the routing 
 
